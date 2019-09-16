@@ -77,10 +77,15 @@ public class User extends Auditable
         return password;
     }
 
-    public void setPassword(String password)
+    public void setPassword(String password) //This allows us to bring in a plaintext password, then encrypt it before it saves it
     {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password = passwordEncoder.encode(password);
+    }
+
+    public void setPasswordNoEncrypt(String password) // If the password is already encrypted however, we want to use it as is (encrypted) so we add a new method
+    {
+        this.password = password;
     }
 
     public List<UserRoles> getUserRoles()

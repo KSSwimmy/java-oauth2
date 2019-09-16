@@ -29,7 +29,8 @@ public class UserServiceImpl implements UserService, UserDetailsService
     private RoleRepository rolerepos;
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
         User user = userrepos.findByUsername(username);
         if (user == null)
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserService, UserDetailsService
     {
         User newUser = new User();
         newUser.setUsername(user.getUsername());
-        newUser.setPassword(user.getPassword());
+        newUser.setPasswordNoEncrypt(user.getPassword()); // changed SetPassword to setPasswordNoEncrypt
 
         ArrayList<UserRoles> newRoles = new ArrayList<>();
         for (UserRoles ur : user.getUserRoles())
@@ -115,7 +116,7 @@ public class UserServiceImpl implements UserService, UserDetailsService
 
         if (user.getPassword() != null)
         {
-            currentUser.setPassword(user.getPassword());
+            currentUser.setPasswordNoEncrypt(user.getPassword()); // changed SetPassword to setPasswordNoEncrypt
         }
 
         if (user.getUserRoles().size() > 0)

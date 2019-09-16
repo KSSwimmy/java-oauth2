@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -22,6 +24,7 @@ public class UserController
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')") //will restrict access to admin only
     @GetMapping(value = "/users", produces = {"application/json"})
     public ResponseEntity<?> listAllUsers()
     {
@@ -61,6 +64,12 @@ public class UserController
     {
         userService.update(updateUser, id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getusername", produces = {"application/json"})
+    public ResponseEntity<?> getUserName(Authentication authentication)
+    {
+        return new ResponseEntity<>(userService.findUserByName(authentication.getName()), HttpStatus.OK);
     }
 
 
