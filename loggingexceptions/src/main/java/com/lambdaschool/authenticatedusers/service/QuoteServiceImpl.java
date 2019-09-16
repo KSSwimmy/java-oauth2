@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
+import javax.persistence.ResourceNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class QuoteServiceImpl implements QuoteService
     @Override
     public Quote findQuoteById(long id)
     {
-        return quoterepos.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+        return quoterepos.findById(id).orElseThrow(() -> new ResourceNotFoundException(Long.toString(id)));
     }
 
     @Override
@@ -50,11 +50,11 @@ public class QuoteServiceImpl implements QuoteService
                 quoterepos.deleteById(id);
             } else
             {
-                throw new EntityNotFoundException(Long.toString(id) + " " + authentication.getName());
+                throw new ResourceNotFoundException(Long.toString(id) + " " + authentication.getName());
             }
         } else
         {
-            throw new EntityNotFoundException(Long.toString(id));
+            throw new ResourceNotFoundException(Long.toString(id));
         }
     }
 
@@ -79,7 +79,7 @@ public class QuoteServiceImpl implements QuoteService
     public Quote update(Quote quote, long id)
     {
             Quote newQuote = quoterepos.findById(id)
-                    .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+                    .orElseThrow(() -> new ResourceNotFoundException(Long.toString(id)));
 
             if (quote.getQuote() != null)
             {

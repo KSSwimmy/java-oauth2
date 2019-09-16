@@ -2,6 +2,8 @@ package com.lambdaschool.authenticatedusers.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -77,7 +79,8 @@ public class User extends Auditable
 
     public void setPassword(String password)
     {
-        this.password = password;
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
     }
 
     public List<UserRoles> getUserRoles()
@@ -98,5 +101,16 @@ public class User extends Auditable
     public void setQuotes(List<Quote> quotes)
     {
         this.quotes = quotes;
+    }
+
+    public List<SimpleGrantedAuthority> getAuthority() // list the roles that the user has access to. Based off of that list ResourceServiceConfig can check to see if a user has access to an endpoint
+    {
+        List<SimpleGrantedAuthority> rtnList = new ArrayList<>();
+        for (UserRoles r : this.userRoles)
+        {
+            String myRole = "ROLE_" + r.getRole().getName().toUpperCase();
+            rtnList.add(new SimpleGrantedAuthority(myRole));
+        }
+        return rtnList;
     }
 }

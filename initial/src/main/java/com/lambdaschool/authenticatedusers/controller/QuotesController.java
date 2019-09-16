@@ -2,6 +2,7 @@ package com.lambdaschool.authenticatedusers.controller;
 
 import com.lambdaschool.authenticatedusers.model.Quote;
 import com.lambdaschool.authenticatedusers.service.QuoteService;
+import com.lambdaschool.authenticatedusers.view.CountQuotes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -85,5 +87,14 @@ public class QuotesController
     {
         quoteService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+     //Gives us a list of users and how many quotes they have.
+    //localhost:2019
+    @GetMapping(value = "/quotecounts")
+    public ResponseEntity<?> countsQuotesPerUser()
+    {
+        List<CountQuotes> myList = quoteService.getCountQuotes();
+        return new ResponseEntity<>(myList, HttpStatus.OK);
     }
 }

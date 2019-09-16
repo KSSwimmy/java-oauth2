@@ -2,6 +2,7 @@ package com.lambdaschool.authenticatedusers.service;
 
 import com.lambdaschool.authenticatedusers.model.Quote;
 import com.lambdaschool.authenticatedusers.repository.QuoteRepository;
+import com.lambdaschool.authenticatedusers.view.CountQuotes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,5 +76,11 @@ public class QuoteServiceImpl implements QuoteService
         }
 
         return quoterepos.save(newQuote);
+    }
+
+    @Override
+    public List<CountQuotes> getCountQuotes()
+    {
+        return quoterepos.getCountQuotes(); // //Connecting to quotecounts controller
     }
 }

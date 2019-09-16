@@ -3,6 +3,7 @@ package com.lambdaschool.authenticatedusers.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "quotes")
@@ -60,4 +61,25 @@ public class Quote extends Auditable
     {
         this.user = user;
     }
+
+    //These are getters from the fields in Auditable. They will display the audible fields to the user. But you have to put them in the class that you want them to be shown in.
+//    public String getCreatedBy()
+//    {
+//        return createdBy;
+//    }
+//
+//    public Date getCreatedDate()
+//    {
+//        return createdDate;
+//    }
+//
+//    public String getLastModifiedBy()
+//    {
+//        return lastModifiedBy;
+//    }
+//
+//    public Date getLastModifiedDate()
+//    {
+//        return lastModifiedDate;
+//    }
 }

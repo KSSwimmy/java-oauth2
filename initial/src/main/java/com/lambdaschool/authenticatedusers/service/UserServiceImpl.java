@@ -6,6 +6,10 @@ import com.lambdaschool.authenticatedusers.model.UserRoles;
 import com.lambdaschool.authenticatedusers.repository.RoleRepository;
 import com.lambdaschool.authenticatedusers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Service(value = "userService")
-public class UserServiceImpl implements UserService
+@Service(value = "userService") // has to match with @Resource(name = "userService") in SecurityConfig
+public class UserServiceImpl implements UserService, UserDetailsService
 {
 
     @Autowired
@@ -23,6 +27,18 @@ public class UserServiceImpl implements UserService
 
     @Autowired
     private RoleRepository rolerepos;
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException
+    {
+        User user = userrepos.findByUsername(username);
+        if (user == null)
+        {
+            throw new UsernameNotFoundException("Invalid username or password.");
+        }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthority());
+    }
+
 
     @Transactional
     public User findUserById(long id) throws EntityNotFoundException

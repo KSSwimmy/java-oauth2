@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
+import javax.persistence.ResourceNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,10 +40,10 @@ public class UserServiceImpl implements UserDetailsService, UserService
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthority());
     }
 
-    public User findUserById(long id) throws EntityNotFoundException
+    public User findUserById(long id) throws ResourceNotFoundException
     {
         return userrepos.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+                .orElseThrow(() -> new ResourceNotFoundException(Long.toString(id)));
     }
 
     public List<User> findAll()
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserDetailsService, UserService
         }
         else
         {
-            throw new EntityNotFoundException(Long.toString(id));
+            throw new ResourceNotFoundException(Long.toString(id));
         }
     }
 
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserDetailsService, UserService
         }
         else
         {
-            throw new EntityNotFoundException(name);
+            throw new ResourceNotFoundException(name);
         }
     }
 
@@ -150,12 +150,12 @@ public class UserServiceImpl implements UserDetailsService, UserService
             }
             else
             {
-                throw new EntityNotFoundException(Long.toString(id) + " Not current user");
+                throw new ResourceNotFoundException(Long.toString(id) + " Not current user");
             }
         }
         else
         {
-            throw new EntityNotFoundException(authentication.getName());
+            throw new ResourceNotFoundException(authentication.getName());
         }
 
     }

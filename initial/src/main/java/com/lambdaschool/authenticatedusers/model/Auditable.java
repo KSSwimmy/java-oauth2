@@ -14,7 +14,11 @@ import java.util.Date;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 
-@MappedSuperclass
+@MappedSuperclass // This is a super class. It will never be instantiated directly
+
+// Listeners are services that run in the background that spring manages for us
+
+//@EntityListeners - anytime something happens to an entity Spring will check this (Auditable) class to see if something needs to be updated. Every time an Entity happens the Listener gets invoked and Spring processes what needs to happen
 @EntityListeners(AuditingEntityListener.class)
 abstract class Auditable
 {
@@ -31,4 +35,7 @@ abstract class Auditable
     @LastModifiedDate
     @Temporal(TIMESTAMP)
     protected Date lastModifiedDate;
+
+
+
 }
