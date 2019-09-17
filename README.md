@@ -1,6 +1,6 @@
 # java-oauth2
 
-Rory's Notes https://lambdaschoolstudents.slack.com/files/T4JUEB3ME/FMEA7KLAU
+Rory's Notes (Thanks!) https://lambdaschoolstudents.slack.com/files/T4JUEB3ME/FMEA7KLAU
 
 JX User Authentication Guided Project
 
