@@ -11,11 +11,11 @@ import java.util.Map;
 public class ErrorDetail
 {
     private String title;
-    private int status;
-    private String detail;
-    private String timestamp;
-    private String developerMessage;
-    private Map<String, List<ValidationError>> errors = new HashMap<>();
+    private int status; // exception not found and 404 goes in here
+    private String detail; // the detail description of what the error problem is. the http method status
+    private String timestamp; //
+    private String developerMessage; // something the client or developer could take a look at
+    private Map<String, List<ValidationError>> errors = new HashMap<>(); // send all the errors at once
 
     public String getTitle()
     {
@@ -52,7 +52,7 @@ public class ErrorDetail
         return timestamp;
     }
 
-    public void setTimestamp(Long timestamp)
+    public void setTimestamp(Long timestamp) // how the date and time will be formatted
     {
         this.timestamp = new SimpleDateFormat("dd MMM yyyy HH:mm:ss:SSS Z").format(new Date(timestamp));
     }

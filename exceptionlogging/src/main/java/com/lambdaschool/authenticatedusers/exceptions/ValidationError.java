@@ -2,8 +2,8 @@ package com.lambdaschool.authenticatedusers.exceptions;
 
 public class ValidationError
 {
-    private String code;
-    private String message;
+    private String code; // the code where the validation failed
+    private String message; // and the message
 
     public String getCode()
     {

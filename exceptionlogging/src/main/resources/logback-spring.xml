@@ -7,13 +7,15 @@
         </encoder>
     </appender>
 
+<!--   We are logging a FILE. This is the log for the current day-->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>/tmp/var/mylog.log</File>
+      <File>/tmp/var/mylog.log</File> <!--file folder path-->
         <append>true</append>
         <encoder>
             <pattern>[%d{yyyy-MM-dd' 'HH:mm:ss.SSS}] [%C] [%t] [%L] [%-5p] %m%n</pattern>
         </encoder>
 
+<!--        Next days and ect are in this folder-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 
             <!-- rollover daily -->
@@ -26,6 +28,7 @@
         </rollingPolicy>
     </appender>
 
+<!--    Putting Tomcat in it's own file -->
     <appender name="TOMCAT" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>/tmp/var/myTomCatlog.log</File>
         <append>true</append>
@@ -45,28 +48,33 @@
         </rollingPolicy>
     </appender>
 
-
+<!--Logging Spring Framwork-->
     <logger name = "org.springframework" level = "OFF" additivity="false">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </logger>
 
+<!--   Logging com.lambdaschool               TRACE gives all the info-->
     <logger name = "com.lambdaschool" level = "TRACE" additivity = "false">
         <appender-ref ref="STDOUT" />
     </logger>
-
+<!-- Logging com.lambdaschool.authenticatedusers.exceptions                       Always put additivity = "false" here so that the logs aren't shown twice-->
     <logger name = "com.lambdaschool.authenticatedusers.exceptions" level="TRACE" additivity = "false">
         <appender-ref ref="STDOUT" />
     </logger>
 
+<!--    Logging the Web Server Tomcat //if you want to log everything related to tomcat you have to log all the versions-->
     <logger name = "org.apache.tomcat" level = "OFF" additivity="false">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="TOMCAT" />
     </logger>
+<!--    Logging the old version of Tomcat-->
     <logger name = "org.apache.coyote" level = "OFF" additivity="false">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="TOMCAT" />
     </logger>
+
+<!--    Logging an even older version of Tomcat-->
     <logger name = "org.apache.catalina" level = "OFF" additivity="false">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="TOMCAT" />

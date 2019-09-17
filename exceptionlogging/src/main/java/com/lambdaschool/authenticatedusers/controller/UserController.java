@@ -22,8 +22,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController
-{
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+{                      //import sl4j                            //the class that you're going to log goes here
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class); // logging can go anywhere in a class
 
     @Autowired
     private UserService userService;
@@ -32,14 +32,14 @@ public class UserController
     @GetMapping(value = "/users", produces = {"application/json"})
     public ResponseEntity<?> listAllUsers(HttpServletRequest request)
     {
-        logger.trace("accessed at trace level");
+        logger.trace("accessed at trace level");// inside of these methods you can put anything
         logger.debug("accessed at debug level");
         logger.info(request.getMethod().toUpperCase() + " " + request.getRequestURI() + "accessed at info level");
 
         List<User> myUsers = userService.findAll();
         return new ResponseEntity<>(myUsers, HttpStatus.OK);
     }
-
+// logger end.
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/user/{userId}", produces = {"application/json"})

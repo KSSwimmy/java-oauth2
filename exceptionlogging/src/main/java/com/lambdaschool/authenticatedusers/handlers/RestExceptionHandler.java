@@ -18,8 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 // bean shared by controller
-@ControllerAdvice
+@ControllerAdvice //
 public class RestExceptionHandler extends ResponseEntityExceptionHandler
+    // inside the controller advice. If we hit an exception that we created it will throw this exception
 {
     @ExceptionHandler({ResourceNotFoundException.class, UsernameNotFoundException.class})
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe, HttpServletRequest request)
@@ -34,7 +35,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(errorDetail, null,HttpStatus.NOT_FOUND);
     }
 
+    // generate -> Override -> choose whichever method
+
     @Override
+    // handles type errors
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request)
     {
         ErrorDetail errorDetail = new ErrorDetail();
@@ -48,6 +52,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @Override
+    // Nonsupported CRUD method
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request)
     {
         ErrorDetail errorDetail = new ErrorDetail();
@@ -61,6 +66,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @Override
+    //
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request)
     {
         ErrorDetail errorDetail = new ErrorDetail();
